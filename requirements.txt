@@ -1,2 +1,3 @@
 postal
+black
 fastapi

@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, Security, status
+from postal.parser import parse_address
 from app.libs.auth import get_api_key
 
 app = FastAPI(
@@ -10,7 +11,8 @@ app = FastAPI(
 
 @app.post("/parse_address")
 async def parse_address(address: str, api_key: str = Security(get_api_key)):
-    return {"status": "ok"}
+    parsed = {k: v for (v, k) in parses_address(address)}
+    return {"status": "ok", "address": parsed}
 
 
 if __name__ == "__main__":
