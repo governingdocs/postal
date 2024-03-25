@@ -19,6 +19,8 @@ RUN ldconfig
 WORKDIR /
 ADD requirements.txt .
 RUN pip3 install -r requirements.txt
+ADD app ./app
+ADD main.py .
 ADD docker-entrypoint.sh .
 RUN chmod a+x docker-entrypoint.sh
 
