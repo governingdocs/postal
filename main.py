@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Security, status
 from postal.parser import parse_address
 from app.libs.auth import get_api_key
+from pydantic import BaseModel
 
 app = FastAPI(
     title="Postal Web Service",
@@ -9,10 +10,14 @@ app = FastAPI(
 )
 
 
+class Address(BaseModel):
+    address: str
+
+
 @app.post("/parse_address")
-async def parse_address(address: str, api_key: str = Security(get_api_key)):
-    parsed = {k: v for (v, k) in parses_address(address)}
-    return {"status": "ok", "address": parsed}
+async def main(address: Address, api_key: str = Security(get_api_key)):
+    parsed = {k: v for (v, k) in parse_address(address.address)}
+    return {"status": "ok", 'address': parsed}
 
 
 if __name__ == "__main__":
