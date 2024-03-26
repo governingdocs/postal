@@ -14,10 +14,15 @@ class Address(BaseModel):
     address: str
 
 
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
+
+
 @app.post("/parse_address")
 async def main(address: Address, api_key: str = Security(get_api_key)):
     parsed = {k: v for (v, k) in parse_address(address.address)}
-    return {"status": "ok", 'address': parsed}
+    return {"status": "ok", "address": parsed}
 
 
 if __name__ == "__main__":
